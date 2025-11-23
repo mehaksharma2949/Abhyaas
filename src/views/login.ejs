@@ -1,0 +1,180 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Login — Abhyass</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+
+  <style>
+    /* ---------- LIGHT THEME COLORS ---------- */
+    :root{
+      --bg: linear-gradient(180deg,#f8feff 0%, #47b1c9 50%, #ffffff 100%);
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #6b7280;
+      --border: #dbeafe;
+      --input-bg: #ffffff;
+      --btn-gradient: linear-gradient(90deg,#3b82f6,#22c1c3);
+    }
+
+    body{
+      font-family: Inter, system-ui;
+      margin:0;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrap{
+      max-width:520px;
+      margin:60px auto;
+      background: var(--card);
+      padding:30px 28px;
+      border-radius:16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+      border:1px solid var(--border);
+    }
+
+    h2{
+      margin-top:0;
+      font-size:1.9rem;
+      color:#0f172a;
+    }
+
+    label{
+      display:block;
+      margin:10px 0 6px;
+      color:#1e293b;
+      font-weight:500;
+    }
+
+    input{
+      width:100%;
+      padding:12px;
+      border-radius:8px;
+      border:1px solid #cbd5e1;
+      background: var(--input-bg);
+      color: var(--text);
+      font-size:1rem;
+    }
+
+    input:focus{
+      outline:none;
+      border-color:#3b82f6;
+      box-shadow:0 0 0 3px rgba(59,130,246,0.25);
+    }
+
+    .btn{
+      margin-top:18px;
+      background: var(--btn-gradient);
+      padding:12px 16px;
+      width:100%;
+      border-radius:999px;
+      border:none;
+      color:white;
+      font-size:1rem;
+      cursor:pointer;
+      font-weight:600;
+      box-shadow:0 6px 20px rgba(59,130,246,0.25);
+    }
+
+    .btn:hover{
+      opacity:0.93;
+    }
+
+    .small{
+      color: var(--muted);
+      font-size:0.93rem;
+      margin-top:14px;
+    }
+
+    a{
+      color:#3b82f6;
+      text-decoration:none;
+      font-weight:500;
+    }
+
+    a:hover{
+      text-decoration:underline;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <h2>Login</h2>
+    <p class="small" id="roleNote"></p>
+
+    <form id="loginForm">
+      <input type="hidden" id="role" value="<%= (typeof role !== 'undefined') ? role : '' %>" />
+
+      <label>Email</label>
+      <input id="email" type="email" required />
+
+      <label>Password</label>
+      <input id="password" type="password" required />
+
+      <button class="btn" type="submit">Login</button>
+    </form>
+
+    <p class="small">Don't have an account? <a href="/signup?role=student">Sign up</a></p>
+  </div>
+
+<script>
+  // get ?role=teacher or ?role=student
+  function getRoleFromQuery() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('role') || 'student';
+  }
+
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const role = getRoleFromQuery(); 
+
+    // choose endpoint
+    let endpoint = '/api/auth/login';
+    if (role === 'teacher') endpoint = '/api/auth/teacher/login';
+
+    try {
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+
+      const text = await res.text();
+      let json;
+      try { json = JSON.parse(text); } 
+      catch (err) { 
+        console.error('Non-JSON response:', text);
+        alert('Server returned unexpected response. Check console.');
+        return;
+      }
+
+      if (!res.ok) {
+        alert(json.message || json.error || 'Login failed');
+        return;
+      }
+
+      localStorage.setItem('token', json.token);
+      localStorage.setItem('userRole', json.user ? json.user.role : role);
+
+      // redirect
+      if (role === 'teacher') {
+        window.location.href = '/dashboard/teacher';
+      } else {
+        window.location.href = '/dashboard/student';
+      }
+
+    } catch (err) {
+      console.error('Login network error:', err);
+      alert('Network error. Check server console.');
+    }
+  });
+</script>
+
+</body>
+</html>

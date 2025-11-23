@@ -1,0 +1,230 @@
+/* ---------------------------
+   GLOBAL EDTECH THEME (ONE FILE)
+   --------------------------- */
+
+:root {
+  --bg-main: #020617;
+  --bg-card: #0b1220;
+  --bg-soft: rgba(255,255,255,0.03);
+
+  --text-main: #e2e8f0;
+  --text-muted: #94a3b8;
+
+  --accent-1: #3b82f6;
+  --accent-2: #6366f1;
+  --accent-3: #60a5fa;
+
+  --gradient: linear-gradient(135deg, #3b82f6, #6366f1);
+  --glass-bg: rgba(255,255,255,0.06);
+  --glass-border: rgba(255,255,255,0.10);
+
+  --radius: 18px;
+  --shadow: 0 18px 45px rgba(0,0,0,0.45);
+}
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, sans-serif;
+  background: var(--bg-main);
+  color: var(--text-main);
+  line-height: 1.5;
+}
+
+/* ---------------------------
+   NAVBAR
+   --------------------------- */
+.navbar {
+  padding: 1.2rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.navbar a {
+  color: var(--text-muted);
+  margin-left: 1.5rem;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+.navbar a:hover {
+  color: #fff;
+}
+
+/* ---------------------------
+   BUTTONS
+   --------------------------- */
+.btn-primary {
+  background: var(--gradient);
+  border: none;
+  padding: 0.8rem 1.6rem;
+  border-radius: 30px;
+  font-size: 1rem;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.25s;
+}
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--glass-border);
+  padding: 0.8rem 1.6rem;
+  border-radius: 30px;
+  color: var(--text-main);
+  cursor: pointer;
+}
+.btn-outline:hover {
+  background: var(--glass-bg);
+}
+
+/* ---------------------------
+   INPUTS
+   --------------------------- */
+input, select, textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--glass-border);
+  background: var(--bg-card);
+  color: var(--text-main);
+  outline: none;
+}
+input:focus {
+  border-color: var(--accent-1);
+}
+
+/* ---------------------------
+   SECTION TITLES
+   --------------------------- */
+.section-title {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #60a5fa, #a855f7);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* ---------------------------
+   FEATURE CARDS
+   --------------------------- */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.4rem;
+  margin-top: 2rem;
+}
+
+.card {
+  padding: 1.6rem;
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+  transition: 0.3s;
+  cursor: pointer;
+}
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow);
+}
+
+.card-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.card-text {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* ---------------------------
+   BADGES (LIVE / UPCOMING)
+   --------------------------- */
+.badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+  margin-top: 6px;
+}
+
+.badge-live {
+  background: linear-gradient(90deg,#22c55e,#4ade80);
+  color: #03120a;
+}
+.badge-upcoming {
+  border: 1px dashed var(--glass-border);
+  color: var(--text-muted);
+}
+
+/* ---------------------------
+   HERO SECTION
+   --------------------------- */
+.hero-wrapper {
+  max-width: 1180px;
+  margin: 4rem auto 2rem;
+  padding: 0 3rem;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.hero-sub {
+  font-size: 1rem;
+  max-width: 500px;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+/* ---------------------------
+   FOOTER
+   --------------------------- */
+.footer {
+  margin-top: 4rem;
+  padding: 3rem;
+  background: var(--bg-card);
+  border-top: 1px solid var(--glass-border);
+}
+
+.footer-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 2rem;
+}
+
+.footer-column-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+}
+
+.footer a {
+  display: block;
+  color: var(--text-muted);
+  text-decoration: none;
+  margin-bottom: 0.4rem;
+  font-size: 0.85rem;
+}
+
+.footer a:hover {
+  color: var(--text-main);
+}
+
+.footer-bottom {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}

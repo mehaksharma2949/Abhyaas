@@ -1,0 +1,99 @@
+/**
+ * =====================================
+ *      WORKSHEET GENERATOR DESIGN
+ * =====================================
+ * 
+ * Project: Instant Worksheet Generator AI
+ * Type: Educational Tool
+ * 
+ * DESIGN PHILOSOPHY
+ * -----------------
+ * Core Principle: Clean academic aesthetic with focus on content
+ * Design Style: Modern Minimal with educational clarity
+ * Emotion Goal: Professional, trustworthy, efficient
+ * 
+ * COLOR SYSTEM (HSL FORMAT)
+ * -------------
+ * Primary: 220 70% 50% - Academic blue for trust
+ * Secondary: 142 71% 45% - Success green for completion
+ * Accent: 24 95% 53% - Warm orange for action
+ * Background: Clean whites and soft grays
+ * 
+ * TYPOGRAPHY
+ * ----------
+ * Display: Bold weights for headers
+ * Body: Clear readable text for worksheets
+ * 
+ * INTERACTIONS
+ * ------------
+ * Transitions: 200ms smooth
+ * States: Complete feedback for all actions
+ * Focus: Clear educational workflow
+ * ====================================
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 220 15% 20%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 15% 20%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 15% 20%;
+    --primary: 220 70% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 15% 95%;
+    --secondary-foreground: 220 15% 20%;
+    --muted: 220 15% 95%;
+    --muted-foreground: 220 10% 45%;
+    --accent: 24 95% 53%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 15% 88%;
+    --input: 220 15% 88%;
+    --ring: 220 70% 50%;
+    --radius: 0.5rem;
+  }
+  
+  .dark {
+    --background: 220 20% 10%;
+    --foreground: 0 0% 95%;
+    --card: 220 20% 12%;
+    --card-foreground: 0 0% 95%;
+    --popover: 220 20% 12%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 220 70% 55%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 15% 18%;
+    --secondary-foreground: 0 0% 95%;
+    --muted: 220 15% 18%;
+    --muted-foreground: 220 10% 60%;
+    --accent: 24 95% 58%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 15% 22%;
+    --input: 220 15% 22%;
+    --ring: 220 70% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .worksheet-output {
+    @apply font-mono text-sm leading-relaxed whitespace-pre-wrap;
+  }
+}

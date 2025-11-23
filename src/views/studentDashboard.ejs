@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Student Dashboard — Abhyass (Light)</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <style>
+    :root{
+      --bg-top: #f8feff;
+      --bg: #ffffff;
+      --card: #ffffff;
+      --text: #062a37;
+      --muted: #52606d;
+      --accent-from: #06b6d4;
+      --accent-to: #3b82f6;
+      --border: rgba(2,6,23,0.06);
+      --shadow: 0 12px 36px rgba(6,30,60,0.06);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(180deg,var(--bg-top) 0%, #66caf5 45%, var(--bg) 100%);
+      color: var(--text);
+      -webkit-font-smoothing:antialiased;
+    }
+
+    .container { max-width: 1150px; margin: 0 auto; padding: 0 1.25rem; }
+
+    /* HEADER */
+    .site-header {
+      background: rgba(255,255,255,0.85);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(6px);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+    .site-header .container {
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 1.25rem;
+    }
+
+    .brand { display:flex; align-items:center; gap:12px; font-weight:700; color:var(--text); margin-left:-8px; }
+    .brand .logo-img {
+      width:44px; height:44px;
+      border-radius:8px; object-fit:cover;
+      box-shadow: 0 6px 18px rgba(3,20,30,0.06);
+      border:1px solid rgba(0,0,0,0.04);
+    }
+    .brand .brand-text { font-size:1.3rem; }
+
+    .nav { display:flex; gap:18px; align-items:center; }
+    .nav a { color:var(--text); text-decoration:none; font-weight:600; }
+    .nav a:hover { color:var(--accent-from); }
+
+    /* MAIN */
+    .main-wrap { padding:36px 0 64px; }
+    .hero { text-align:left; margin-bottom:22px; }
+    .hero h1 { margin:0; font-size:2.05rem; }
+    .hero .muted { margin-top:8px; color:var(--muted); font-size:1rem; }
+
+    /* CARDS */
+    .cards-row { display:flex; gap:22px; flex-wrap:wrap; margin-top:18px; }
+    .big-card {
+      flex: 1 1 720px;
+      background: var(--card);
+      border-radius:14px;
+      padding:18px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+    .card-head h2 { margin:0; font-size:1.3rem; }
+    .small-muted { color:var(--muted); }
+
+    .card-grid {
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .feature {
+      background: linear-gradient(180deg, #ffffff, #f6fbff);
+      border-radius:12px;
+      padding:14px;
+      border:1px solid var(--border);
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      position:relative;
+      min-height:120px;
+      transition: transform .18s, box-shadow .18s;
+      overflow: visible; /* ensure badge shows */
+    }
+
+    .feature:hover {
+      transform: translateY(-6px);
+      box-shadow:0 20px 40px rgba(6,30,60,0.08);
+      cursor:pointer;
+    }
+
+    .icon {
+      width:46px; height:46px; border-radius:10px;
+      display:flex; align-items:center; justify-content:center;
+      background: linear-gradient(135deg,#06b6d4,#6366f1);
+      color:white; box-shadow:0 8px 20px rgba(6,182,212,0.08);
+      font-size:1.3rem; flex-shrink:0;
+    }
+
+    /* **ADJUSTED** Badges: placed inside card near top (not floating above) */
+    .badge {
+      position:absolute;
+      top: 10px;      /* <-- changed: inside card, slight offset from top */
+      right: 14px;
+      background: linear-gradient(90deg, rgba(59,130,246,0.16), rgba(6,182,212,0.10));
+      padding:6px 10px;
+      font-size:0.78rem;
+      border-radius:999px;
+      border:1px solid rgba(59,130,246,0.12);
+      font-weight:600;
+      color:#063446;
+      z-index:50;
+      box-shadow:0 8px 22px rgba(0,0,0,0.07);
+    }
+
+    .site-footer { padding:18px 0; border-top:1px solid var(--border); text-align:center; color:var(--muted); }
+
+    @media (max-width: 980px){
+      .brand { margin-left: 0; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container">
+      <div class="brand">
+        <!-- recommended path: place abhyas-logo.png into backend/public/images/abhyas-logo.png -->
+        <!-- For quick preview you can use the uploaded file path: /mnt/data/a148858d-792c-4502-9c25-7ab3ea6002c2.png -->
+        <img class="logo-img" src="/images/abhyas-logo.png" alt="Abhyass logo" />
+        <div class="brand-text">Abhyass</div>
+      </div>
+
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/choose-role">Choose Role</a>
+        <a href="/logout">Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="container main-wrap">
+    <section class="hero">
+      <h1>Welcome, <%= (typeof user !== 'undefined' && user && user.name) ? user.name : 'Student' %></h1>
+      <p class="muted">AI-powered practice, reading fluency, worksheets and lesson plans — made for students.</p>
+    </section>
+
+    <section class="cards-row">
+      <article class="big-card">
+        <div class="card-head">
+          <div>
+            <h2>Student Tools</h2>
+            <div class="small-muted">All your learning tools in one place</div>
+          </div>
+        </div>
+
+        <div class="card-grid">
+          <div class="feature" data-href="/student/games">
+            <div style="display:flex;gap:10px;">
+              <div class="icon">🎮</div>
+              <div>
+                <h3>Gamified Learning</h3>
+                <p>Daily challenges & adaptive learning games.</p>
+              </div>
+            </div>
+            <div class="badge">Upcoming</div>
+          </div>
+
+          <div class="feature" data-href="/student/reading">
+            <div style="display:flex;gap:10px;">
+              <div class="icon">📗</div>
+              <div>
+                <h3>Reading Fluency</h3>
+                <p>Record & get AI feedback on fluency.</p>
+              </div>
+            </div>
+            <div class="badge">Upcoming</div>
+          </div>
+
+          <div class="feature" data-href="/student/lesson-plans">
+            <div style="display:flex;gap:10px;">
+              <div class="icon">📝</div>
+              <div>
+                <h3>Multilingual Content</h3>
+                <p>Auto-translate & localize learning content.</p>
+              </div>
+            </div>
+            <div class="badge">Upcoming</div>
+          </div>
+
+          <div class="feature" data-href="/student/worksheets">
+            <div style="display:flex;gap:10px;">
+              <div class="icon">📄</div>
+              <div>
+                <h3>Teach-back Method</h3>
+                <p>Students teach AI to deepen learning.</p>
+              </div>
+            </div>
+            <div class="badge">Upcoming</div>
+          </div>
+
+          <div class="feature" data-href="/student/auto-eval">
+            <div style="display:flex;gap:10px;">
+              <div class="icon">📸</div>
+              <div>
+                <h3>Ask-AI</h3>
+                <p>Students can ask any doubt to AI.</p>
+              </div>
+            </div>
+            <div class="badge">Upcoming</div>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer">© 2025 Abhyass — Made with ❤️ for students</footer>
+
+  <script>
+    // keep existing behaviour: clicking upcoming shows alert
+    document.querySelectorAll('.feature').forEach(el=>{
+      el.style.cursor='pointer';
+      el.addEventListener('click', ()=>{
+        const href = el.dataset.href;
+        const badge = el.querySelector('.badge');
+        if (badge) {
+          alert('This feature is coming soon — stay tuned!');
+          return;
+        }
+        if (href) location.href = href;
+      });
+    });
+  </script>
+
+</body>
+</html>

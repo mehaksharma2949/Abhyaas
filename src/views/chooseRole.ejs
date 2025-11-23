@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Choose Your Path | Abhyass (Light)</title>
+
+  <style>
+    /* Light theme variables */
+    :root{
+      --bg: linear-gradient(180deg,#f8feff 0%, #47b1c9 50%, #ffffff 100%);
+      --card: #ffffff;
+      --muted: #55606a;
+      --accent-1: linear-gradient(135deg,#3b82f6,#60a5fa);
+      --accent-2: linear-gradient(135deg,#a855f7,#6366f1);
+      --feature-accent: linear-gradient(135deg,#06b6d4,#6366f1);
+      --border: rgba(2,6,23,0.06);
+      --shadow: 0 14px 36px rgba(15,23,42,0.06);
+    }
+
+    *{box-sizing:border-box}
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: #04314a;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    .wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 4rem 1.25rem;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.6rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: #08364a;
+    }
+
+    p.subtitle {
+      font-size: 1.05rem;
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+    }
+
+    /* ROLE CARDS */
+    .card-container {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .role-card {
+      background: var(--card);
+      width: 520px;
+      max-width: calc(100% - 40px);
+      padding: 2.4rem;
+      border-radius: 20px;
+      box-shadow: 0 18px 42px rgba(8,25,40,0.06);
+      text-align: center;
+      transition: .25s ease;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+    }
+
+    .role-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 30px 80px rgba(8,25,40,0.08);
+    }
+
+    .icon-box {
+      width: 110px;
+      height: 110px;
+      border-radius: 20px;
+      margin-bottom: 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      color: white;
+      box-shadow: 0 10px 26px rgba(3,20,30,0.06);
+    }
+
+    .icon-student { background: var(--accent-1); }
+    .icon-teacher { background: var(--accent-2); }
+
+    .role-title {
+      margin-bottom: 0.6rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #062a37;
+    }
+
+    .role-desc {
+      color: var(--muted);
+      font-size: 1rem;
+      margin-bottom: 1.2rem;
+      max-width: 420px;
+    }
+
+    .role-cta {
+      display:inline-block;
+      padding: 10px 18px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(90deg,#06b6d4,#3b82f6);
+      text-decoration: none;
+      font-weight:600;
+      margin-top: 8px;
+      box-shadow: 0 10px 30px rgba(59,130,246,0.12);
+    }
+
+    /* FEATURES TITLE ONLY (cards removed) */
+    .features-section {
+      margin-top: 2.2rem;
+      padding-top: 1.4rem;
+    }
+
+    .features-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #08364a;
+      margin-bottom: 0.6rem;
+    }
+
+    .features-sub {
+      color: var(--muted);
+      margin-bottom: 1.6rem;
+    }
+
+    @media (max-width: 980px) {
+      .role-card { width: 100%; max-width: 760px; }
+    }
+    @media (max-width: 600px) {
+      h1 { font-size: 1.9rem; }
+      .icon-box { width:88px; height:88px; font-size:1.6rem; }
+      .role-desc { max-width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <h1>Choose Your Learning Path</h1>
+    <p class="subtitle">Join thousands of learners and educators in our community</p>
+
+    <!-- ROLE CARDS -->
+    <div class="card-container" role="list">
+
+      <!-- Student Card -->
+      <div class="role-card" role="listitem" onclick="continueAs('student')">
+        <div class="icon-box icon-student">🎓</div>
+        <div class="role-title">I'm a Student</div>
+        <div class="role-desc">Start your learning journey with expert guidance, gamified practice, and AI-powered feedback tailored to your grade.</div>
+        <a class="role-cta" href="/signup?role=student">Start Learning →</a>
+      </div>
+
+      <!-- Teacher Card -->
+      <div class="role-card" role="listitem" onclick="continueAs('teacher')">
+        <div class="icon-box icon-teacher">📘</div>
+        <div class="role-title">I'm a Teacher</div>
+        <div class="role-desc">Save planning time with auto-generated lesson plans, worksheets, visual aids and simple class-level analytics.</div>
+        <a class="role-cta" href="/login?role=teacher">Start Teaching →</a>
+      </div>
+
+    </div>
+
+    <!-- ONLY TITLE, NO CARDS BELOW -->
+    <div class="features-section">
+      <div class="features-title">Helping Students Learn & Teachers Teach Smarter</div>
+      <div class="features-sub">AI tools that simplify studying and save time for educators — focused on low-resource, multilingual classrooms.</div>
+    </div>
+
+  </div>
+
+  <!-- FUNCTIONALITY SAME AS ORIGINAL -->
+  <script>
+    const BASE = "";
+
+    function getSignupTemp() {
+      try {
+        const raw = localStorage.getItem("signupTemp");
+        return raw ? JSON.parse(raw) : null;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    async function continueAs(role) {
+      const data = getSignupTemp();
+      if (!data) {
+        window.location.href = "/signup";
+        return;
+      }
+
+      let apiUrl = "";
+      let payload = {};
+
+      if (role === "student") {
+        apiUrl = "/api/auth/student/register";
+        payload = {
+          name: data.name,
+          email: data.email,
+          password: data.password,
+          grade: data.grade || "6"
+        };
+      } else {
+        apiUrl = "/api/auth/teacher/login";
+        payload = {
+          name: data.name,
+          email: data.email,
+          password: data.password,
+          schoolName: data.schoolName || "My School"
+        };
+      }
+
+      try {
+        const res = await fetch(apiUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        const json = await res.json();
+
+        if (!res.ok || !json.success) {
+          alert(json.message || "Registration failed. Please try again.");
+          return;
+        }
+
+        localStorage.setItem("token", json.token || "");
+        localStorage.setItem("userRole", json.user?.role || role);
+
+        if (role === "teacher") {
+          window.location.href = "/dashboard/teacher";
+        } else {
+          window.location.href = "/dashboard/student";
+        }
+      } catch (err) {
+        alert("Server error. Try again later.");
+      }
+    }
+  </script>
+
+</body>
+</html>

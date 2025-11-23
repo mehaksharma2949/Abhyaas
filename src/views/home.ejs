@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Aabhyas | Learn Smarter</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <style>
+    /* Light theme for Abhyass homepage - ready to paste */
+    :root{
+      --bg-top: #f7feff;
+      --bg: #ffffff;
+      --panel: #ffffff;
+      --muted: #53707f;
+      --heading: #0a4a56;
+      --accent-from: #06b6d4;
+      --accent-to: #0ea5e9;
+      --card-border: rgba(2,6,23,0.04);
+      --card-shadow: 0 18px 40px rgba(8,30,40,0.04);
+      --pill-bg: linear-gradient(90deg,#06b6d4,#60a5fa);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      -webkit-font-smoothing:antialiased;
+      background: linear-gradient(180deg,var(--bg-top) 0%, #66caf5 45%, var(--bg) 100%);
+      color:var(--heading);
+    }
+
+    /* Navbar */
+    .navbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:24px;
+      padding:14px 28px;
+      background: white;
+      border-bottom:1px solid var(--card-border);
+      position:sticky; top:0; z-index:60;
+      backdrop-filter: blur(6px);
+    }
+    .brand {
+      display:flex; align-items:center; gap:12px;
+    }
+    .brand img.logo {
+      width:44px; height:44px; border-radius:8px; object-fit:cover;
+      box-shadow:0 6px 18px rgba(3,20,30,0.06); border:1px solid rgba(0,0,0,0.04);
+    }
+    .brand .title { font-weight:700; color:var(--heading); font-size:1.05rem; }
+    .nav-links { display:flex; gap:18px; align-items:center; }
+    .nav-links a { color:var(--muted); text-decoration:none; font-weight:600; }
+    .nav-links a:hover { color:var(--accent-from); }
+
+    .cta-getstarted{
+      padding:10px 16px; border-radius:10px;
+      background: linear-gradient(90deg, #62c9db, #031f4d);
+      color:#eaecee; font-weight:700; border:none;
+      text-decoration:none;
+    }
+
+    /* Hero */
+    .hero-wrapper{ max-width:1180px; margin:44px auto 28px; padding:0 24px; }
+    .hero-badge{ display:inline-block; padding:6px 12px; border-radius:999px; font-size:0.82rem;
+      color:var(--muted); background: rgba(6,182,212,0.07); border:1px solid rgba(6,182,212,0.06);
+      margin-bottom:12px;
+    }
+    .hero-title{ font-size:2.8rem; line-height:1.02; margin:6px 0 12px; color:var(--heading); font-weight:800; }
+    .hero-sub{ max-width:760px; color:var(--muted); margin-bottom:18px; font-size:1rem; line-height:1.5; }
+
+    /* Explore Tools (auto-scrolling row) */
+    .explore-wrap { width:100%; margin:18px 0 28px; text-align:left; }
+    .explore-inner-wrap { max-width:1180px; margin:0 auto; padding:0 24px; }
+    .explore-title { font-size:1.15rem; color:var(--heading); font-weight:700; margin-bottom:8px; }
+    .explore-sub { color:var(--muted); font-size:0.95rem; margin-bottom:12px; }
+
+    .scroller-outer {
+      width:100vw; /* full page width as requested */
+      margin-left: calc(50% - 50vw); /* make full-bleed */
+      position:relative;
+      overflow:hidden;
+      padding:12px 0;
+      border-radius:12px;
+      background: linear-gradient(90deg, rgba(6,182,212,0.03), rgba(59,130,246,0.02));
+      border:1px solid var(--card-border);
+    }
+
+    /* inner long strip that scrolls horizontally */
+    .scroller-inner {
+      display:flex;
+      gap:16px;
+      padding:12px 20px;
+      animation: scroll-left 20s linear infinite;
+      align-items:stretch;
+    }
+
+    /* pause on hover */
+    .scroller-outer:hover .scroller-inner,
+    .scroller-inner:focus-within {
+      animation-play-state: paused;
+    }
+
+    @keyframes scroll-left {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-33%); } /* tweak to create continuous effect */
+    }
+
+    .tool-card {
+      min-width:260px;
+      max-width:260px;
+      background:var(--panel);
+      border-radius:12px;
+      border:1px solid var(--card-border);
+      padding:12px;
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      box-shadow: var(--card-shadow);
+      text-decoration:none;
+      color:inherit;
+      /* make scrolling cards not clickable (user request) */
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .tool-card * { pointer-events: none; } /* ensure no child is clickable either */
+
+    .tool-icon {
+      width:48px; height:48px; border-radius:10px; display:flex; align-items:center; justify-content:center;
+      background: linear-gradient(135deg,var(--accent-from),var(--accent-to)); color:white; font-size:20px;
+      flex-shrink:0;
+      box-shadow: 0 8px 20px rgba(6,182,212,0.06);
+    }
+
+    .tool-body h4 { margin:0; font-size:1rem; font-weight:700; color:var(--heading); }
+    .tool-body p { margin:6px 0 0 0; font-size:0.92rem; color:var(--muted); line-height:1.35; }
+
+    /* Features grid (main features) */
+    .features-section { max-width:1180px; margin:0 auto 36px; padding:0 24px; }
+    .features-title { text-align:center; font-size:1.6rem; color:var(--heading); font-weight:800; margin-bottom:6px; }
+    .features-sub { text-align:center; color:var(--muted); margin-bottom:18px; }
+
+    .features-grid {
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap:14px;
+      align-items:start;
+    }
+
+    .feature-card {
+      background:var(--panel);
+      border-radius:12px;
+      padding:18px;
+      border:1px solid var(--card-border);
+      box-shadow: var(--card-shadow);
+      min-height:150px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .feature-top { display:flex; gap:12px; align-items:center; }
+    .feature-icon { width:52px; height:52px; border-radius:12px; display:flex; align-items:center; justify-content:center; color:white; background: linear-gradient(135deg,var(--accent-from),var(--accent-to)); font-size:22px; box-shadow:0 10px 26px rgba(6,182,212,0.06); }
+    .feature-title { margin:0; font-weight:700; color:var(--heading); }
+    .feature-text { color:var(--muted); margin-top:6px; }
+
+    /* CTA section */
+    .cta-section { max-width:1180px; margin:36px auto 40px; padding:0 24px; }
+    .cta-card { padding:34px; border-radius:18px; background: linear-gradient(180deg,#e6f8ff,#f7fdff); border:1px solid var(--card-border); box-shadow:var(--card-shadow); text-align:center; }
+    .cta-title { font-size:1.6rem; margin:0 0 8px; color:var(--heading); font-weight:800; }
+    .cta-sub { color:var(--muted); margin-bottom:14px; }
+
+    /* Testimonials */
+    .testimonials { max-width:1180px; margin:36px auto 24px; padding:0 24px; }
+    .testimonials h2 { text-align:center; color:var(--heading); margin-bottom:16px; font-size:1.6rem; }
+    .test-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:18px; }
+    .testimonial-card {
+      background: #fff;
+      border-radius:12px;
+      padding:18px;
+      border:1px solid var(--card-border);
+      box-shadow: var(--card-shadow);
+    }
+    .testimonial-quote { color:var(--muted); margin-bottom:12px; font-style:normal; }
+    .testimonial-author { display:flex; gap:12px; align-items:center; }
+    .avatar { width:40px; height:40px; border-radius:999px; display:inline-block; background:linear-gradient(135deg,#60a5fa,#3b82f6); color:white; display:flex; align-items:center; justify-content:center; font-weight:700; box-shadow:0 8px 20px rgba(0,0,0,0.04); }
+
+    /* Pricing */
+    .pricing { max-width:1180px; margin:24px auto 40px; padding:0 24px; text-align:center; }
+    .pricing h2 { color:var(--heading); margin-bottom:6px; font-size:1.6rem; }
+    .pricing p.sub { color:var(--muted); margin-bottom:18px; }
+    .pricing-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:16px; align-items:start; }
+    .price-card {
+      background:var(--panel);
+      border-radius:12px;
+      padding:20px;
+      border:1px solid var(--card-border);
+      box-shadow: var(--card-shadow);
+    }
+    .price-title { font-weight:700; margin-bottom:8px; }
+    .price-amount { font-size:1.6rem; margin-bottom:8px; color:var(--heading); font-weight:800; }
+    .price-desc { color:var(--muted); margin-bottom:12px; }
+    .price-cta { padding:10px 14px; border-radius:8px; background:#e6f8ff; color:var(--heading); text-decoration:none; font-weight:700; display:inline-block; }
+
+    /* footer */
+    .footer { border-top:1px solid var(--card-border); margin-top:36px; padding:28px 24px; background:transparent; color:var(--muted); }
+    .footer-inner { max-width:1180px; margin:0 auto; display:grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap:12px; align-items:start; font-size:0.9rem; }
+
+    @media (max-width:900px){
+      .nav-links { display:none; } /* compact */
+      .explore-inner-wrap, .hero-wrapper, .features-section, .cta-section { padding:0 18px; }
+      .scroller-inner { animation-duration:28s; }
+      .hero-title { font-size:2.1rem; }
+      .features-grid{ grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+      .footer-inner { grid-template-columns:1fr; }
+      .scroller-outer { margin-left: 0; width: 100%; } /* avoid overflow on small screens */
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="navbar" role="banner">
+    <div class="brand">
+      <img class="logo" src="/images/abhyas-logo.png" alt="Abhyass logo"
+           onerror="this.onerror=null; this.src='/mnt/data/023d5bc0-79f9-41fc-8c84-1747e800efbe.png'">
+      <div class="title">Abhyass</div>
+    </div>
+
+    <nav class="nav-links" aria-label="Main">
+      <a href="/">Home</a>
+      <a href="#features">Features</a>
+      <a href="#about">About</a>
+      <a class="cta-getstarted" href="/choose-role">Get Started</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <div class="hero-wrapper">
+    <div class="hero-badge">AI-Powered Education Platform</div>
+    <h1 class="hero-title">Learn Smarter, Teach Easier with Abhyass</h1>
+    <p class="hero-sub">Personalized AI tools for Indian classrooms — lesson planners, worksheets, auto-evaluation and multilingual support designed for grades 5–10.</p>
+    <a href="/choose-role" class="btn-link"><button class="cta-getstarted">Get Started Free</button></a>
+  </div>
+
+  <!-- Explore Tools (auto-scrolling left→right effect) -->
+  <section class="explore-wrap" aria-label="Explore Tools">
+    <div class="explore-inner-wrap">
+      <div class="explore-title">Explore Tools</div>
+      <div class="explore-sub">Auto-scrolling showcase — hover to pause</div>
+    </div>
+
+    <div class="scroller-outer" aria-hidden="false">
+      <div id="scroller" class="scroller-inner" tabindex="0" aria-label="Tools carousel">
+        <!-- tool cards (repeat) -->
+        <div class="tool-card">
+          <div class="tool-icon">🎮</div>
+          <div class="tool-body">
+            <h4>Gamified Practice</h4>
+            <p>Subject-wise games and challenges that adapt to student level.</p>
+          </div>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-icon">📸</div>
+          <div class="tool-body">
+            <h4>Auto-Evaluator (Photos)</h4>
+            <p>Upload student answer photos — AI scores and gives feedback per student.</p>
+          </div>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-icon">🗣️</div>
+          <div class="tool-body">
+            <h4>Multilingual Voice & Image</h4>
+            <p>Accepts voice/image input and responds in Indian languages.</p>
+          </div>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-icon">🧾</div>
+          <div class="tool-body">
+            <h4>AI Lesson Plans</h4>
+            <p>Generate localized lesson plans with activities and assessments.</p>
+          </div>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-icon">📄</div>
+          <div class="tool-body">
+            <h4>Instant Worksheets</h4>
+            <p>Create differentiated worksheets automatically from topics or images.</p>
+          </div>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-icon">📅</div>
+          <div class="tool-body">
+            <h4>Smart Timetable</h4>
+            <p>AI-generated timetables that balance topics and revision slots.</p>
+          </div>
+        </div>
+
+        <!-- duplicate items appended by JS to create seamless loop when viewport is wide -->
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" aria-label="Call to action">
+    <div class="cta-card">
+      <div class="cta-title">Ready to transform your classroom?</div>
+      <div class="cta-sub">Start now — free for classrooms. Premium plans available for school-wide admin & analytics.</div>
+      <a href="/choose-role" class="cta-getstarted">Get Started Free</a>
+    </div>
+  </section>
+
+  <!-- Testimonials (inserted right after CTA as requested) -->
+  <section class="testimonials" aria-label="What teachers say">
+    <h2>What Teachers Say</h2>
+
+    <div class="test-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"Abhyass ne hamare lesson planning ka time aadha kar diya. Students engaged hain!"</div>
+        <div class="testimonial-author">
+          <div class="avatar">MS</div>
+          <div>
+            <div style="font-weight:700;color:var(--heading)">Mrs. Sharma</div>
+            <div style="color:var(--muted);font-size:0.9rem">Govt. Middle School, UP</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"Worksheets instantly banana aur auto-evaluate karna bahut helpful hai."</div>
+        <div class="testimonial-author">
+          <div class="avatar">RR</div>
+          <div>
+            <div style="font-weight:700;color:var(--heading)">Mr. Reddy</div>
+            <div style="color:var(--muted);font-size:0.9rem">St. Paul High School</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing (inserted after testimonials, matches screenshots) -->
+  <section class="pricing" aria-label="Simple Pricing">
+    <h2>Simple Pricing</h2>
+    <p class="sub">Free forever for classrooms — premium plans for school-wide admin & analytics.</p>
+
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-title">Free</div>
+        <div class="price-amount">₹0</div>
+        <div class="price-desc">Worksheets, basic planner, multilingual tools</div>
+        <a class="price-cta" href="/choose-role">Get Started</a>
+      </div>
+
+      <div class="price-card">
+        <div class="price-title">Pro</div>
+        <div class="price-amount">₹499/mo</div>
+        <div class="price-desc">Advanced analytics, school admin features</div>
+        <a class="price-cta" href="#">Start Free Trial</a>
+      </div>
+
+      <div class="price-card">
+        <div class="price-title">School</div>
+        <div class="price-amount">Custom</div>
+        <div class="price-desc">Enterprise onboarding, integrations</div>
+        <a class="price-cta" href="#">Contact Sales</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- small about + footer -->
+  <section id="about" style="max-width:1180px;margin:0 auto 32px;padding:0 24px;color:var(--muted);font-size:.95rem;">
+    <p>Abhyass is designed for Indian classrooms — saving teachers time and helping students learn with adaptive, localized AI tools.</p>
+  </section>
+
+  <footer class="footer" role="contentinfo">
+    <div class="footer-inner" role="navigation">
+      <div>
+        <div style="font-weight:700;color:var(--heading);margin-bottom:8px">Abhyass</div>
+        <div style="color:var(--muted)">Empowering teachers with AI-driven tools for Indian classrooms.</div>
+      </div>
+
+      <div>
+        <div style="font-weight:700;color:var(--heading);margin-bottom:8px">Product</div>
+        <div><a href="#features" style="color:var(--muted);text-decoration:none">Features</a></div>
+        <div><a href="#" style="color:var(--muted);text-decoration:none">Pricing</a></div>
+        <div><a href="#" style="color:var(--muted);text-decoration:none">Support</a></div>
+      </div>
+
+      <div>
+        <div style="font-weight:700;color:var(--heading);margin-bottom:8px">Resources</div>
+        <div><a href="#" style="color:var(--muted);text-decoration:none">Docs</a></div>
+        <div><a href="#" style="color:var(--muted);text-decoration:none">Guides</a></div>
+      </div>
+
+      <div>
+        <div style="font-weight:700;color:var(--heading);margin-bottom:8px">Legal</div>
+        <div><a href="#" style="color:var(--muted);text-decoration:none">Privacy</a></div>
+        <div><a href="#" style="color:var(--muted);text-decoration:none">Terms</a></div>
+      </div>
+
+      <div>
+        <div style="font-weight:700;color:var(--heading);margin-bottom:8px">Company</div>
+        <div><a href="#" style="color:var(--muted);text-decoration:none">About</a></div>
+        <div><a href="#" style="color:var(--muted);text-decoration:none">Contact</a></div>
+      </div>
+    </div>
+    <div style="max-width:1180px;margin:18px auto 0;text-align:center;color:var(--muted);font-size:.9rem">
+      © 2025 Abhyass. Made with ❤️ for teachers.
+    </div>
+  </footer>
+
+  <script>
+    /* Make scroller seamless: duplicate children if container width is larger than content so animation looks continuous.
+       This JS only enhances UX; it doesn't change any routes/behavior.
+       Note: tool-card pointer-events are disabled above so cards are not clickable (user request). */
+    (function(){
+      const inner = document.querySelector('.scroller-inner');
+      if (!inner) return;
+
+      // Duplicate content until the scroll area is at least 2x viewport (prevents gaps)
+      const ensureLoop = () => {
+        const outerWidth = inner.parentElement.clientWidth;
+        // compute inner width
+        const innerWidth = Array.from(inner.children).reduce((w, el) => w + el.getBoundingClientRect().width + 16, 0);
+        // if inner content is smaller than 1.8x outer, duplicate once to make continuous feeling
+        if (innerWidth < outerWidth * 1.8) {
+          const children = Array.from(inner.children).map(c => c.cloneNode(true));
+          children.forEach(c => inner.appendChild(c));
+        }
+      };
+
+      window.addEventListener('load', ensureLoop);
+      window.addEventListener('resize', () => {
+        clearTimeout(window._scrolldeb);
+        window._scrolldeb = setTimeout(ensureLoop, 200);
+      });
+    })();
+  </script>
+</body>
+</html>

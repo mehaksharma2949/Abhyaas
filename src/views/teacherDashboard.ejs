@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Teacher Dashboard — Abhyass (Light)</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root{
+      --bg-top: #f8feff;
+      --bg: #ffffff;
+      --card: #ffffff;
+      --text: #062a37;
+      --muted: #607886;
+      --accent-from: #06b6d4;
+      --accent-to: #3b82f6;
+      --border: rgba(2,6,23,0.06);
+      --shadow: 0 12px 36px rgba(6,30,60,0.06);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      -webkit-font-smoothing:antialiased;
+      background: linear-gradient(180deg,var(--bg-top) 0%, #66caf5 45%, var(--bg) 100%);
+      color:var(--text);
+    }
+
+    .site-header {
+      background: rgba(255,255,255,0.92);
+      border-bottom: 1px solid var(--border);
+      position: sticky; top:0; z-index:40;
+      backdrop-filter: blur(6px);
+    }
+    .container { max-width:1150px; margin:0 auto; padding:0 1.25rem; }
+    .site-header .container { display:flex; align-items:center; justify-content:space-between; padding:14px 1.25rem; }
+
+    .brand { display:flex; align-items:center; gap:12px; font-weight:700; color:var(--text); }
+    .brand img.logo { width:44px; height:44px; border-radius:8px; object-fit:cover; box-shadow:0 6px 18px rgba(3,20,30,0.06); border:1px solid rgba(0,0,0,0.04); }
+    .brand .brand-text { font-size:1.15rem; }
+
+    .nav { display:flex; gap:18px; align-items:center; }
+    .nav a { text-decoration:none; color:var(--text); font-weight:600; }
+    .nav a:hover { color:var(--accent-from); }
+
+    main.main-wrap { padding:36px 0 64px; }
+    .hero { margin-bottom:22px; text-align:left; }
+    .hero h1 { margin:0; font-size:2rem; }
+    .hero p.muted { margin-top:8px; color:var(--muted); }
+
+    /* Grid section card container */
+    .grid-section { background: var(--card); border-radius:14px; padding:18px; border: 1px solid var(--border); box-shadow: var(--shadow); }
+    .section-title { font-size:1.25rem; margin:0 0 8px 0; color:var(--text); }
+    .section-sub { color:var(--muted); margin-bottom:12px; }
+
+    /* ------------ FIXED BADGE + CARD STYLING (NO FUNCTIONALITY CHANGE) ---------- */
+    .features-grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap:16px;
+    }
+    .feature-card{
+      background: linear-gradient(180deg,#ffffff,#f7fbff);
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:22px 16px 16px 16px;  /* FIX: extra top padding */
+      min-height:120px;
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      transition: transform .18s ease, box-shadow .18s ease;
+      position:relative;
+      overflow:visible;
+    }
+    .feature-card:hover{
+      transform: translateY(-6px);
+      box-shadow: 0 22px 42px rgba(6,30,60,0.08);
+      cursor:pointer;
+    }
+    .feature-icon{
+      width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;color:white;
+      background: linear-gradient(135deg,var(--accent-from),var(--accent-to));
+      box-shadow: 0 8px 20px rgba(6,182,212,0.08);
+      flex-shrink:0;
+    }
+    .feature-body h3{ margin:0; font-size:1.02rem; color:var(--text); word-break:break-word; }
+    .feature-body p{ margin:6px 0 0 0; color:var(--muted); font-size:0.95rem; line-height:1.4; }
+
+    .small-badge{
+      position:absolute;
+      top:4px; right:6px;      /* FIX: lowered */
+      padding:6px 10px;
+      background: linear-gradient(90deg, rgba(59,130,246,0.12), rgba(6,182,212,0.08));
+      color:#063446;
+      border-radius:999px;
+      font-weight:600;
+      font-size:0.78rem;
+      border:1px solid rgba(59,130,246,0.12);
+      z-index:30;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    }
+    .small-badge.live{
+      background: linear-gradient(90deg, rgba(34,197,94,0.12), rgba(34,197,94,0.08));
+      color:#064e0b;
+      border:1px solid rgba(34,197,94,0.12);
+    }
+
+    /* quick status */
+    .status-row{ display:flex; gap:12px; flex-wrap:wrap; margin-top:12px; }
+    .status-card{
+      background: linear-gradient(180deg,#ffffff,#fbfeff);
+      padding:12px; border-radius:10px; border:1px solid var(--border);
+      min-width:180px; box-shadow: 0 8px 20px rgba(6,30,60,0.04);
+    }
+    .status-title{ font-weight:700; color:var(--text); margin:0 0 6px 0; }
+    .status-sub{ color:var(--muted); font-size:0.92rem; margin:0; }
+    footer.site-footer{ padding:18px 0; text-align:center; color:var(--muted); margin-top:30px; }
+  </style>
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <div class="brand">
+        <img class="logo" src="/images/abhyas-logo.png" alt="Abhyass logo" />
+        <div class="brand-text">Abhyass</div>
+      </div>
+
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/choose-role">Choose Role</a>
+        <a href="/logout">Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container main-wrap">
+    <section class="hero">
+      <h1>Teacher Dashboard</h1>
+      <p class="muted">
+        Welcome <%= (typeof user !== 'undefined' && user && user.name) ? user.name : 'Teacher' %> — you can access teaching tools and quick statuses below.
+      </p>
+    </section>
+
+    <section class="grid-section">
+      <h2 class="section-title">Teacher Tools</h2>
+      <div class="section-sub">Tools for creating worksheets, evaluating student answers, generating lesson plans and classroom analytics.</div>
+
+      <div id="features-grid" class="features-grid">
+
+        <div class="feature-card" data-href="/teacher/worksheet-gen">
+          <div class="feature-icon">📝</div>
+          <div class="feature-body">
+            <h3>Worksheet Generator</h3>
+            <p>AI-driven worksheet generator (populate questions by topic).</p>
+          </div>
+          <div class="small-badge live">Live</div>
+        </div>
+
+        <div class="feature-card" data-href="/teacher/auto-eval">
+          <div class="feature-icon">📸</div>
+          <div class="feature-body">
+            <h3>Worksheet Auto-evaluator (photo)</h3>
+            <p>Students upload photos – auto-evaluate answers.</p>
+          </div>
+          <div class="small-badge live">Live</div>
+        </div>
+
+        <div class="feature-card" data-href="/teacher/visual-aids">
+          <div class="feature-icon">📊</div>
+          <div class="feature-body">
+            <h3>Board Diagram Creator</h3>
+            <p>Create printable board diagrams for lessons.</p>
+          </div>
+          <div class="small-badge live">Live</div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📘</div>
+          <div class="feature-body">
+            <h3>AI Lesson Plan Generator</h3>
+            <p>Auto-generate lesson plans tuned to grade & topic.</p>
+          </div>
+          <div class="small-badge">Upcoming</div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🧠</div>
+          <div class="feature-body">
+            <h3>Text Simplifier (multilingual)</h3>
+            <p>Simplify text to child-friendly language.</p>
+          </div>
+          <div class="small-badge">Upcoming</div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📅</div>
+          <div class="feature-body">
+            <h3>Smart Timetable Scheduler</h3>
+            <p>Generate class timetables automatically.</p>
+          </div>
+          <div class="small-badge">Upcoming</div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">⭐</div>
+          <div class="feature-body">
+            <h3>Transparent-Mode</h3>
+            <p>Teacher can checkout the query of students.</p>
+          </div>
+          <div class="small-badge">Upcoming</div>
+        </div>
+
+      </div>
+
+      <!-- quick stats -->
+      <div style="margin-top:18px">
+        <h3 class="section-title" style="font-size:1rem;margin-bottom:8px">Quick status</h3>
+        <div id="quick-status" class="status-row">
+          <div class="status-card">
+            <div class="status-title">Live</div>
+            <p class="status-sub">3</p>
+          </div>
+          <div class="status-card">
+            <div class="status-title">Upcoming</div>
+            <p class="status-sub">4</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">© 2025 Abhyass — for teachers</footer>
+
+  <script src="/js/features.js"></script>
+  <script src="/js/teacher-dashboard.js"></script>
+
+  <script>
+    function initLocalFeatureClicks(){
+      document.querySelectorAll('.feature-card').forEach(el=>{
+        el.style.cursor='pointer';
+        el.addEventListener('click', ()=>{
+          const href = el.dataset.href;
+          const badge = el.querySelector('.small-badge');
+          if (badge && /upcoming/i.test(badge.textContent)) {
+            alert('This feature is coming soon — stay tuned!');
+            return;
+          }
+          if (href) location.href = href;
+        });
+      });
+    }
+    document.addEventListener('DOMContentLoaded', initLocalFeatureClicks);
+  </script>
+
+</body>
+</html>
