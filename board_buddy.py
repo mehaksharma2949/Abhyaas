@@ -6,7 +6,7 @@ import base64
 
 app = Flask(__name__)
 
-API_KEY = "AIzaSyA4WPa1uBr6YlzgOOpFCGfWr2w8fZ8UP_0"
+API_KEY = ""
 genai.configure(api_key=API_KEY)
 model = genai.GenerativeModel('gemini-2.0-flash')
 
